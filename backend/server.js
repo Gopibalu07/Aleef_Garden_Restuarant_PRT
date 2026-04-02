@@ -10,7 +10,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // ---- MIDDLEWARE ----
 app.use(cors());
@@ -201,8 +201,6 @@ app.get('*', (req, res) => {
 });
 
 // ---- START ----
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`\n🌿 Aleef Garden running at http://localhost:${PORT}`);
