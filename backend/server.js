@@ -211,4 +211,7 @@ app.listen(PORT, () => {
   console.log(`📡 API at http://localhost:${PORT}/api/health\n`);
 });
 
+console.log("🚀 NEW DEPLOYMENT CODE RUNNING");
+console.log("ENV PORT:", process.env.PORT);
+
 module.exports = app;
