@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve Frontend folder (works from root when deployed on Railway)
-app.use(express.static(path.join(__dirname, '../Frontend')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // ---- DB ----
 const db = require('./database');
