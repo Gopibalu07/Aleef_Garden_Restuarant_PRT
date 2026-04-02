@@ -206,7 +206,7 @@ app.get('*', (req, res) => {
 
 // ---- START ----
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
   console.log(`\n🌿 Aleef Garden running at http://localhost:${PORT}`);
   console.log(`📡 API at http://localhost:${PORT}/api/health\n`);
 });
