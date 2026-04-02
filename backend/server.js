@@ -10,7 +10,11 @@ const path = require('path');
 const crypto = require('crypto');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
+
+if (!PORT) {
+  throw new Error("PORT not defined");
+}
 
 // ---- MIDDLEWARE ----
 app.use(cors());
