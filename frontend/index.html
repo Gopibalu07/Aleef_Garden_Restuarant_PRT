@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aleef Garden Restaurant</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <span class="logo-leaf">🌿</span>
+    <span class="logo-text">Aleef Garden</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="cart-btn" onclick="toggleCart()">
+    <i class="fas fa-shopping-bag"></i>
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+  <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-tagline">Authentic Flavours Since 1990</p>
+    <h1 class="hero-title">Aleef<br/><em>Garden</em></h1>
+    <p class="hero-subtitle">Where every meal is a journey through the finest grills, biryanis & coastal delights</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Order Now</a>
+      <a href="#about" class="btn-outline">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span></span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>🍗 Tandoori Chicken</span><span>•</span>
+    <span>🍛 Chicken Biryani</span><span>•</span>
+    <span>🥘 Mutton Korma</span><span>•</span>
+    <span>🐟 Fish Fry</span><span>•</span>
+    <span>🧆 Kebabs</span><span>•</span>
+    <span>🍜 Fried Rice</span><span>•</span>
+    <span>🫓 Parotta</span><span>•</span>
+    <span>🍨 Ice Cream Sundae</span><span>•</span>
+    <span>🍗 Tandoori Chicken</span><span>•</span>
+    <span>🍛 Chicken Biryani</span><span>•</span>
+    <span>🥘 Mutton Korma</span><span>•</span>
+    <span>🐟 Fish Fry</span><span>•</span>
+    <span>🧆 Kebabs</span><span>•</span>
+    <span>🍜 Fried Rice</span><span>•</span>
+  </div>
+</div>
+
+<!-- SPECIALS -->
+<section class="specials" id="specials">
+  <div class="container">
+    <div class="section-label">Chef's Picks</div>
+    <h2 class="section-title">House Specialities</h2>
+    <div class="specials-grid">
+      <div class="special-card">
+        <div class="special-img" style="background:linear-gradient(135deg,#8B1A0A,#D4380D)">
+          <span class="special-icon">🍗</span>
+        </div>
+        <h3>Tandoori Chicken</h3>
+        <p>Marinated overnight in our secret spice blend, slow-roasted in clay oven</p>
+        <span class="price">₹320</span>
+        <button class="add-btn" onclick="addToCart('Tandoori Chicken', 320)">Add to Order</button>
+      </div>
+      <div class="special-card featured">
+        <div class="featured-badge">Most Loved</div>
+        <div class="special-img" style="background:linear-gradient(135deg,#4A2C0A,#8B5E1A)">
+          <span class="special-icon">🍛</span>
+        </div>
+        <h3>Chicken Biryani</h3>
+        <p>Aromatic basmati, tender chicken & 18 spices layered to perfection</p>
+        <span class="price">₹280</span>
+        <button class="add-btn" onclick="addToCart('Chicken Biryani', 280)">Add to Order</button>
+      </div>
+      <div class="special-card">
+        <div class="special-img" style="background:linear-gradient(135deg,#0A3D2B,#1A8B5A)">
+          <span class="special-icon">🐟</span>
+        </div>
+        <h3>Grilled Fish</h3>
+        <p>Fresh catch of the day, marinated in coastal masala & banana leaf grilled</p>
+        <span class="price">₹380</span>
+        <button class="add-btn" onclick="addToCart('Grilled Fish', 380)">Add to Order</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="section-label">Full Menu</div>
+    <h2 class="section-title">What We Serve</h2>
+    <div class="menu-tabs">
+      <button class="tab active" onclick="filterMenu('all', this)">All</button>
+      <button class="tab" onclick="filterMenu('starters', this)">Starters</button>
+      <button class="tab" onclick="filterMenu('tandoor', this)">Tandoor</button>
+      <button class="tab" onclick="filterMenu('biryani', this)">Biryani</button>
+      <button class="tab" onclick="filterMenu('gravy', this)">Gravy</button>
+      <button class="tab" onclick="filterMenu('rice', this)">Rice & Noodles</button>
+      <button class="tab" onclick="filterMenu('dessert', this)">Desserts</button>
+      <button class="tab" onclick="filterMenu('drinks', this)">Drinks</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+      <!-- Starters -->
+      <div class="menu-item" data-cat="starters">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Chicken 65</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Crispy deep-fried chicken with curry leaves & chilli</p>
+          <div class="item-footer">
+            <span class="item-price">₹220</span>
+            <button class="add-btn-sm" onclick="addToCart('Chicken 65', 220)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="starters">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Chicken Lollipop</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Succulent drumettes in spicy red glaze</p>
+          <div class="item-footer">
+            <span class="item-price">₹280</span>
+            <button class="add-btn-sm" onclick="addToCart('Chicken Lollipop', 280)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="starters">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Mutton Sukka</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Dry tossed mutton with roasted coconut & spices</p>
+          <div class="item-footer">
+            <span class="item-price">₹360</span>
+            <button class="add-btn-sm" onclick="addToCart('Mutton Sukka', 360)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="starters">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Veg Spring Rolls</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Crispy rolls stuffed with seasonal vegetables</p>
+          <div class="item-footer">
+            <span class="item-price">₹160</span>
+            <button class="add-btn-sm" onclick="addToCart('Veg Spring Rolls', 160)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="starters">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Fish Finger</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Golden crumb-fried fish strips with tartar sauce</p>
+          <div class="item-footer">
+            <span class="item-price">₹300</span>
+            <button class="add-btn-sm" onclick="addToCart('Fish Finger', 300)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- Tandoor -->
+      <div class="menu-item" data-cat="tandoor">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Tandoori Chicken Full</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Whole chicken marinated & roasted in clay oven</p>
+          <div class="item-footer">
+            <span class="item-price">₹580</span>
+            <button class="add-btn-sm" onclick="addToCart('Tandoori Chicken Full', 580)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="tandoor">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Tandoori Chicken Half</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Half bird, perfectly charred with mint chutney</p>
+          <div class="item-footer">
+            <span class="item-price">₹320</span>
+            <button class="add-btn-sm" onclick="addToCart('Tandoori Chicken Half', 320)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="tandoor">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Seekh Kebab</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Minced lamb skewers with aromatic herbs</p>
+          <div class="item-footer">
+            <span class="item-price">₹340</span>
+            <button class="add-btn-sm" onclick="addToCart('Seekh Kebab', 340)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="tandoor">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Paneer Tikka</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Cottage cheese cubes in smoky tandoor marinade</p>
+          <div class="item-footer">
+            <span class="item-price">₹260</span>
+            <button class="add-btn-sm" onclick="addToCart('Paneer Tikka', 260)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- Biryani -->
+      <div class="menu-item" data-cat="biryani">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Chicken Biryani</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Dum-cooked fragrant rice with juicy chicken</p>
+          <div class="item-footer">
+            <span class="item-price">₹280</span>
+            <button class="add-btn-sm" onclick="addToCart('Chicken Biryani', 280)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="biryani">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Mutton Biryani</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Slow-cooked tender mutton layered with saffron rice</p>
+          <div class="item-footer">
+            <span class="item-price">₹360</span>
+            <button class="add-btn-sm" onclick="addToCart('Mutton Biryani', 360)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="biryani">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Egg Biryani</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Fluffy basmati layered with spiced boiled eggs</p>
+          <div class="item-footer">
+            <span class="item-price">₹200</span>
+            <button class="add-btn-sm" onclick="addToCart('Egg Biryani', 200)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="biryani">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Veg Biryani</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Garden vegetables dum-cooked with fragrant rice</p>
+          <div class="item-footer">
+            <span class="item-price">₹180</span>
+            <button class="add-btn-sm" onclick="addToCart('Veg Biryani', 180)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- Gravy -->
+      <div class="menu-item" data-cat="gravy">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Chicken Butter Masala</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Rich tomato & cream gravy with tender chicken</p>
+          <div class="item-footer">
+            <span class="item-price">₹280</span>
+            <button class="add-btn-sm" onclick="addToCart('Chicken Butter Masala', 280)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="gravy">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Mutton Korma</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Slow-braised mutton in cashew & yoghurt sauce</p>
+          <div class="item-footer">
+            <span class="item-price">₹360</span>
+            <button class="add-btn-sm" onclick="addToCart('Mutton Korma', 360)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="gravy">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Dal Tadka</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Yellow lentils tempered with ghee & cumin</p>
+          <div class="item-footer">
+            <span class="item-price">₹160</span>
+            <button class="add-btn-sm" onclick="addToCart('Dal Tadka', 160)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- Rice & Noodles -->
+      <div class="menu-item" data-cat="rice">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Chicken Fried Rice</h4>
+            <span class="veg-badge non-veg">●</span>
+          </div>
+          <p>Wok-tossed rice with chicken & seasonal veggies</p>
+          <div class="item-footer">
+            <span class="item-price">₹240</span>
+            <button class="add-btn-sm" onclick="addToCart('Chicken Fried Rice', 240)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="rice">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Veg Noodles</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Hakka noodles stir-fried with fresh vegetables</p>
+          <div class="item-footer">
+            <span class="item-price">₹180</span>
+            <button class="add-btn-sm" onclick="addToCart('Veg Noodles', 180)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- Desserts -->
+      <div class="menu-item" data-cat="dessert">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Ice Cream Sundae</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Three scoops with hot fudge, nuts & wafer</p>
+          <div class="item-footer">
+            <span class="item-price">₹180</span>
+            <button class="add-btn-sm" onclick="addToCart('Ice Cream Sundae', 180)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- Drinks -->
+      <div class="menu-item" data-cat="drinks">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Mint Lemonade</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Fresh mint, lemon & a hint of ginger soda</p>
+          <div class="item-footer">
+            <span class="item-price">₹80</span>
+            <button class="add-btn-sm" onclick="addToCart('Mint Lemonade', 80)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item" data-cat="drinks">
+        <div class="item-info">
+          <div class="item-header">
+            <h4>Mango Lassi</h4>
+            <span class="veg-badge veg">●</span>
+          </div>
+          <p>Sweet Alphonso mango blended with chilled yogurt</p>
+          <div class="item-footer">
+            <span class="item-price">₹100</span>
+            <button class="add-btn-sm" onclick="addToCart('Mango Lassi', 100)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container about-grid">
+    <div class="about-visual">
+      <div class="about-badge">Est. 1990</div>
+      <div class="about-img-wrap">
+        <div class="about-img-card card1">🍗</div>
+        <div class="about-img-card card2">🌿</div>
+        <div class="about-img-card card3">🔥</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title left">Rooted in Flavour,<br/>Grown with Love</h2>
+      <p>Aleef Garden has been Chennai's cherished dining destination for over three decades. Born from a passion for authentic Indian cuisine, we bring the finest tandoori preparations, coastal seafood, and aromatic biryanis to your table.</p>
+      <p>Every dish is crafted with spices sourced from local farms and cooked by chefs who carry decades of culinary heritage. Our banana-leaf platters, clay oven kebabs, and slow-cooked gravies have earned us the loyalty of generations of food lovers.</p>
+      <div class="about-stats">
+        <div class="stat"><span class="stat-num">30+</span><span class="stat-label">Years Serving</span></div>
+        <div class="stat"><span class="stat-num">80+</span><span class="stat-label">Menu Items</span></div>
+        <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Happy Tables/Day</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-label">Visit Us</div>
+    <h2 class="section-title">Find Aleef Garden</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="info-block">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <h4>Address</h4>
+            <p>Aleef Garden Restaurant, Chennai, Tamil Nadu, India</p>
+          </div>
+        </div>
+        <div class="info-block">
+          <i class="fas fa-clock"></i>
+          <div>
+            <h4>Hours</h4>
+            <p>Daily: 11:00 AM – 11:00 PM</p>
+          </div>
+        </div>
+        <div class="info-block">
+          <i class="fas fa-phone"></i>
+          <div>
+            <h4>Reservations</h4>
+            <p>+91 98765 43210</p>
+          </div>
+        </div>
+        <a href="https://maps.app.goo.gl/1mXPLbtfazmUiijLA" target="_blank" class="btn-primary" style="display:inline-block;margin-top:1rem;">
+          <i class="fas fa-directions"></i> Get Directions
+        </a>
+      </div>
+      <div class="contact-form-wrap">
+        <h3>Reserve a Table</h3>
+        <form class="contact-form" onsubmit="submitReservation(event)">
+          <input type="text" placeholder="Your Name" required />
+          <input type="tel" placeholder="Phone Number" required />
+          <input type="email" placeholder="Email Address" />
+          <input type="date" required />
+          <input type="number" placeholder="Number of Guests" min="1" max="20" required />
+          <textarea placeholder="Special Requests..."></textarea>
+          <button type="submit" class="btn-primary">Book My Table</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-leaf">🌿</span>
+      <span class="logo-text">Aleef Garden</span>
+      <p>Authentic flavours, crafted with love.</p>
+    </div>
+    <div class="footer-links">
+      <h5>Quick Links</h5>
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-social">
+      <h5>Follow Us</h5>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Aleef Garden Restaurant. All rights reserved.</div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Your Order</h3>
+    <button onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="empty-cart">
+      <i class="fas fa-utensils"></i>
+      <p>Your cart is empty</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">₹0</span>
+    </div>
+    <button class="btn-primary w-full" onclick="checkout()">Proceed to Pay</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCheckout()"><i class="fas fa-times"></i></button>
+    <h2>Complete Your Order</h2>
+    <form onsubmit="processPayment(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="custName" placeholder="Enter your name" required/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX" required/>
+      </div>
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <textarea id="custAddress" placeholder="Enter full address" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Payment Method</label>
+        <div class="payment-methods">
+          <label class="pay-opt"><input type="radio" name="payment" value="upi" checked/><span><i class="fas fa-mobile-alt"></i> UPI / GPay</span></label>
+          <label class="pay-opt"><input type="radio" name="payment" value="card"/><span><i class="fas fa-credit-card"></i> Card</span></label>
+          <label class="pay-opt"><input type="radio" name="payment" value="cod"/><span><i class="fas fa-money-bill"></i> Cash on Delivery</span></label>
+        </div>
+      </div>
+      <div class="order-summary" id="orderSummary"></div>
+      <button type="submit" class="btn-primary w-full">Place Order — <span id="payTotal">₹0</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- SUCCESS TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
