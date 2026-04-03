@@ -10,24 +10,21 @@ const path = require('path');
 const crypto = require('crypto');
 
 const app = express();
-const PORT = process.env.PORT;
-
-if (!PORT) {
-  throw new Error("PORT not defined");
-}
+const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0'; // ← CRITICAL: bind to all interfaces for Railway
 
 // ---- MIDDLEWARE ----
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve Frontend folder (works from root when deployed on Railway)
+// Serve Frontend folder
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // ---- DB ----
 const db = require('./database');
 
-// ---- RAZORPAY (optional — only if keys are set) ----
+// ---- RAZORPAY (optional) ----
 let razorpay = null;
 if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
   const Razorpay = require('razorpay');
@@ -129,9 +126,7 @@ app.patch('/api/orders/:orderId/status', (req, res) => {
 // =============================================
 
 app.post('/api/payment/create-order', async (req, res) => {
-  if (!razorpay) {
-    return res.status(503).json({ error: 'Payment gateway not configured' });
-  }
+  if (!razorpay) return res.status(503).json({ error: 'Payment gateway not configured' });
   const { amount, orderId } = req.body;
   try {
     const order = await razorpay.orders.create({
@@ -140,13 +135,7 @@ app.post('/api/payment/create-order', async (req, res) => {
       receipt: orderId,
     });
     db.run('UPDATE orders SET razorpay_order_id = ? WHERE order_id = ?', [order.id, orderId]);
-    res.json({
-      success: true,
-      razorpayOrderId: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      keyId: process.env.RAZORPAY_KEY_ID
-    });
+    res.json({ success: true, razorpayOrderId: order.id, amount: order.amount, currency: order.currency, keyId: process.env.RAZORPAY_KEY_ID });
   } catch (err) {
     res.status(500).json({ error: 'Payment initiation failed' });
   }
@@ -157,18 +146,15 @@ app.post('/api/payment/verify', (req, res) => {
   const sign = razorpay_order_id + '|' + razorpay_payment_id;
   const expectedSignature = crypto
     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-    .update(sign)
-    .digest('hex');
-
+    .update(sign).digest('hex');
   if (expectedSignature !== razorpay_signature) {
     return res.status(400).json({ success: false, error: 'Payment verification failed' });
   }
-  db.run(
-    'UPDATE orders SET status = ?, payment_id = ? WHERE order_id = ?',
+  db.run('UPDATE orders SET status = ?, payment_id = ? WHERE order_id = ?',
     ['confirmed', razorpay_payment_id, orderId],
     (err) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ success: true, message: 'Payment verified & order confirmed!' });
+      res.json({ success: true, message: 'Payment verified!' });
     }
   );
 });
@@ -199,19 +185,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', restaurant: 'Aleef Garden', timestamp: new Date() });
 });
 
-// SPA fallback — serve index.html for all non-API routes
+// SPA fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-// ---- START ----
-
-app.listen(PORT,"0.0.0.0", () => {
-  console.log(`\n🌿 Aleef Garden running at http://localhost:${PORT}`);
-  console.log(`📡 API at http://localhost:${PORT}/api/health\n`);
+// ---- START — bind to 0.0.0.0 so Railway can reach it ----
+app.listen(PORT, HOST, () => {
+  console.log(`\n🌿 Aleef Garden running on ${HOST}:${PORT}`);
+  console.log(`📡 API: http://${HOST}:${PORT}/api/health\n`);
 });
-
-console.log("🚀 NEW DEPLOYMENT CODE RUNNING");
-console.log("ENV PORT:", process.env.PORT);
 
 module.exports = app;
